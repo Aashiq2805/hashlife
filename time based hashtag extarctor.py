@@ -16,5 +16,5 @@ csvFile = open('file1.csv', 'a')
 csvWriter = csv.writer(csvFile)
 
 for tweet in tweepy.Cursor(api.search,q="#metoo").items():
-    print (tweet.created_at, tweet.text)
+    print (tweet.created_at, tweet.text, tweet.user.location)
     csvWriter.writerow([tweet.created_at, tweet.text.encode('utf-8'), tweet.user.location])
