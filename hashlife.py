@@ -20,9 +20,9 @@ for tweet in tweepy.Cursor(api.search,q="#security",count=100,
     #print (tweet.created_at, tweet.text)
     sentiment_overall=TextBlob(tweet.text)
     if(sentiment_overall.sentiment.polarity<0):
-    	#raise an alert
-    	continue
-    print(sentiment_overall.sentiment)
+    	#print("Item found with negativity! Alert ! Alert ! Alert!")
+    	print("\n\nItem found with negativity! Alert ! Alert ! Alert! Stats are: "+str(sentiment_overall.sentiment)+". Tweet is: "+tweet.text)
+    	#print(tweet.text)
     csvWriter.writerow([tweet.user.screen_name, tweet.text.encode('utf-8')])
 
 csv = pd.read_csv('tweets.csv',names=["Username","Tweet"])
