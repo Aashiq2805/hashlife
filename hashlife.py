@@ -16,9 +16,13 @@ csvFile = open('tweets.csv', 'w')
 csvWriter = csv.writer(csvFile)
 
 for tweet in tweepy.Cursor(api.search,q="#security",count=100,
-                           lang="en",
-                           since="2019-10-03").items():
+                           lang="en").items():
     #print (tweet.created_at, tweet.text)
+    sentiment_overall=TextBlob(tweet.text)
+    if(sentiment_overall.sentiment.polarity<0):
+    	#raise an alert
+    	continue
+    print(sentiment_overall.sentiment)
     csvWriter.writerow([tweet.user.screen_name, tweet.text.encode('utf-8')])
 
 csv = pd.read_csv('tweets.csv',names=["Username","Tweet"])
