@@ -22,9 +22,11 @@ for tweet in tweepy.Cursor(api.search,q="CIA").items():
     #print (tweet.created_at, tweet.text)
     sentiment_overall=TextBlob(tweet.text)
     if(sentiment_overall.sentiment.polarity<0):
-    	#print("Item found with negativity! Alert ! Alert ! Alert!")
-    	print("\n\nItem found with negativity!Stats are: "+str(sentiment_overall.sentiment)+".\n Tweet is: "+tweet.text)
-    	#print(tweet.text)
+    	#print("Item found with negativity!")
+        if 'RT' in tweet.text:
+            continue
+        else:
+            print("\n\nItem found with negativity!Stats are: "+str(sentiment_overall.sentiment)+".\n Tweet is: "+tweet.text)
     csvWriter.writerow([tweet.user.screen_name, tweet.text.encode('utf-8')])
 
 csv = pd.read_csv('tweets.csv',names=["Username","Tweet"])
