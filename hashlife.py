@@ -23,27 +23,31 @@ for tweet in tweepy.Cursor(api.search,q="CIA").items():
     sentiment_overall=TextBlob(tweet.text)
     if(sentiment_overall.sentiment.polarity<0):
     	#print("Item found with negativity!")
-        if 'RT' in tweet.text:
-            continue
-        else:
-            print("\n\nItem found with negativity!Stats are: "+str(sentiment_overall.sentiment)+".\n Tweet is: "+tweet.text)
+    	print("\n\nItem found with negativity! Stats are: "+str(sentiment_overall.sentiment)+".\n Tweet is: "+tweet.text)
+    	#print(tweet.text)
     csvWriter.writerow([tweet.user.screen_name, tweet.text.encode('utf-8')])
 
 csv = pd.read_csv('tweets.csv',names=["Username","Tweet"])
 count = csv['Username'].value_counts()[:]
 csv.head(10)
 
-top2 = count.head(10)
-top2
-
+top10 = count.head(10)
 import matplotlib.pyplot as plt
 
 colors =  ["#E13F29", "#D69A80", "#D63B59", "#AE5552", "#CB5C3B", "#EB8076", "#96624E"]
-top2.plot.pie(y=top2.index,
+top10.plot.pie(y=top2.index,
            shadow=False,
-           colors=colors, 
+           colors=colors,
            radius = 1000,
            #explode=(0, 0),   # exploding 'Friday'
+           startangle=90,
+           autopct='%1.1f%%',
+           textprops={'fontsize': 10})
+
+plt.axis('equal')
+plt.tight_layout()
+plt.show()
+
            startangle=90,
            autopct='%1.1f%%',
            textprops={'fontsize': 10})
